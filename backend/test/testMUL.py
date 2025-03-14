@@ -7,10 +7,15 @@ from ..instructions.instruction_set import instruction_set
 
 # TODO add tests for overflow
 
-
 class TestInstructionParser(unittest.TestCase):
+    """
+    Unit tests for the MUL instruction parser and execution.
+    """
 
     def setUp(self):
+        """
+        Set up the test environment.
+        """
         self.memory_db = {
             "Instructions": ["MUL X0, X1, X2"],
             "Queue": None,
@@ -20,6 +25,9 @@ class TestInstructionParser(unittest.TestCase):
         }
 
     def test_parser_mul_instruction(self):
+        """
+        Test parsing of the MUL instruction.
+        """
         parser = InstructionParser(self.memory_db["Instructions"])
         self.memory_db["Queue"] = parser.return_queue()
         instruction = self.memory_db["Queue"].get()
@@ -29,6 +37,9 @@ class TestInstructionParser(unittest.TestCase):
         self.assertEqual(instruction.reg2, "X2")
 
     def test_execute_mul_instruction(self):
+        """
+        Test execution of the MUL instruction.
+        """
         self.memory_db["registers"].set("X1", 5)
         self.memory_db["registers"].set("X2", 3)
         parser = InstructionParser(self.memory_db["Instructions"])
@@ -38,6 +49,9 @@ class TestInstructionParser(unittest.TestCase):
         self.assertEqual(self.memory_db["registers"].get("X0"), 15)
         
     def test_revert_mul_instruction(self):
+        """
+        Test reversion of the MUL instruction.
+        """
         self.memory_db["registers"].set("X1", 5)
         self.memory_db["registers"].set("X2", 3)
         parser = InstructionParser(self.memory_db["Instructions"])

@@ -7,8 +7,14 @@ from ..core.memory import Memory
 from ..instructions.instruction_set import instruction_set
 
 class TestInstructionParser(unittest.TestCase):
+    """
+    Unit tests for the LSL instruction parser and execution.
+    """
 
     def setUp(self):
+        """
+        Set up the test environment.
+        """
         self.memory_db = {
             "Instructions": ["LSL X0, X1, #2"],
             "Queue": None,
@@ -18,6 +24,9 @@ class TestInstructionParser(unittest.TestCase):
         }
 
     def test_parser_lsl_instruction(self):
+        """
+        Test parsing of the LSL instruction.
+        """
         parser = InstructionParser(self.memory_db["Instructions"])
         self.memory_db["Queue"] = parser.return_queue()
         instruction = self.memory_db["Queue"].get()
@@ -27,6 +36,9 @@ class TestInstructionParser(unittest.TestCase):
         self.assertEqual(instruction.shift_amount, 2)
 
     def test_execute_lsl_instruction(self):
+        """
+        Test execution of the LSL instruction.
+        """
         self.memory_db["registers"].set("X1", 5)
         parser = InstructionParser(self.memory_db["Instructions"])
         self.memory_db["Queue"] = parser.return_queue()
@@ -35,6 +47,9 @@ class TestInstructionParser(unittest.TestCase):
         self.assertEqual(self.memory_db["registers"].get("X0"), 20)
         
     def test_revert_lsl_instruction(self):
+        """
+        Test reversion of the LSL instruction.
+        """
         self.memory_db["registers"].set("X1", 5)
         parser = InstructionParser(self.memory_db["Instructions"])
         self.memory_db["Queue"] = parser.return_queue()

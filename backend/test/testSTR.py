@@ -7,8 +7,14 @@ from ..core.memory import Memory
 from ..instructions.instruction_set import instruction_set
 
 class TestInstructionParser(unittest.TestCase):
+    """
+    Unit tests for the STR instruction parser and execution.
+    """
 
     def setUp(self):
+        """
+        Set up the test environment.
+        """
         self.memory_db = {
             "Instructions": ["STR X0, [X1, #4]"],
             "Queue": None,
@@ -18,6 +24,9 @@ class TestInstructionParser(unittest.TestCase):
         }
 
     def test_parser_str_instruction(self):
+        """
+        Test parsing of the STR instruction.
+        """
         parser = InstructionParser(self.memory_db["Instructions"])
         self.memory_db["Queue"] = parser.return_queue()
         instruction = self.memory_db["Queue"].get()
@@ -27,6 +36,9 @@ class TestInstructionParser(unittest.TestCase):
         self.assertEqual(instruction.offset, 4)
 
     def test_execute_str_instruction(self):
+        """
+        Test execution of the STR instruction.
+        """
         self.memory_db["registers"].set("X0", 42)
         self.memory_db["registers"].set("X1", 0)
         parser = InstructionParser(self.memory_db["Instructions"])
@@ -36,6 +48,9 @@ class TestInstructionParser(unittest.TestCase):
         self.assertEqual(self.memory_db["memory"].get(4), 42)
         
     def test_revert_str_instruction(self):
+        """
+        Test reversion of the STR instruction.
+        """
         self.memory_db["registers"].set("X0", 42)
         self.memory_db["registers"].set("X1", 0)
         parser = InstructionParser(self.memory_db["Instructions"])
