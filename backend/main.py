@@ -7,6 +7,7 @@ from core.registers import Registers, RegistersModel
 from core.memory import Memory, MemoryModel
 from core.parser import InstructionParser
 from pydantic import BaseModel
+import os
 
 app = FastAPI()
 
@@ -21,7 +22,7 @@ origins = [
 
 app.add_middleware(
 	CORSMiddleware,
-	allow_origins=origins,
+	allow_origins=["*"],
 	allow_credentials=True,
 	allow_methods=["*"],
 	allow_headers=["*"]
@@ -87,4 +88,5 @@ def memory():
 
 
 if __name__ == "__main__":
-	uvicorn.run(app, host="0.0.0.0", port=8000)
+	port = int(os.getenv("PORT", 8000))
+	uvicorn.run(app, host="0.0.0.0", port=port)
